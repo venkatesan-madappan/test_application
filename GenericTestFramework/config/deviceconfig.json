@@ -1,0 +1,5 @@
+{
+  "Board"     : "NRF5340",
+  "Transport" : "Serial",
+  "PortNumber": "COM4"
+}
