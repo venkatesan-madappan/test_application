@@ -66,11 +66,29 @@ class SerialTransport(Transport):
         :return: the bool value received or not
         """
         data = None
-        while not self.msgq.empty():
-            data = self.msgq.get(1).decode('utf-8')
-            if data == msg:
-                break
-        return ord(data)
+        msg_check = ""
+        msg_found = False
+        try:
+            while not self.msgq.empty():
+                data = self.msgq.get(1).decode('utf-8')
+                if data is not None:
+                    ascii_data = ord(data)
+                    if ascii_data == 10 or ascii_data == 13:
+                        if ascii_data == 10:
+                            if msg == msg_check:
+                                msg_found = True
+                                break
+                            else:
+                                msg_check = ""
+                    else:
+                        msg_check = msg_check+data
+            else:
+                print("Seems like we have reached the Empty")
+                print(f"Message is  : {msg_check}")
+        except Exception as e:
+            print("There is an Exception "+str(e))
+            pass
+        return msg_found, msg_check
 
     def cleanup(self):
         """

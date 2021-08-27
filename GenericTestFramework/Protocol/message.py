@@ -9,10 +9,14 @@ class Messages:
     Message for Communication with the Board
     """
     primitives = {
-        "ADVERTISE": 0x61,
-        "ADVERTISE_SUCCESSFUL": 0x62,
-        "CONNECT": 0x63,
-        "CONNECT_SUCCESSFUL": 0x64,
-        "DISCONNECT": 0x65,
-        "DISCONNECT_SUCCESSFUL": 0x66
+        "ADVERTISE": "ADVERTISE",
+        "ADVERTISE_SUCCESSFUL": "ADVERTISE_SUCCESSFUL",
+        "CONNECT": "CONNECT",
+        "CONNECT_SUCCESSFUL": "CONNECT_SUCCESSFUL",
+        "DISCONNECT": "DISCONNECT",
+        "DISCONNECT_SUCCESSFUL": "DISCONNECT_SUCCESSFUL"
         }
+
+    @staticmethod
+    def data_serialize(data):
+        return bytes(Messages.primitives[data]+'\r', 'utf-8')

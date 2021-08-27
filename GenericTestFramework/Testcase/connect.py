@@ -22,12 +22,12 @@ class ConnectTest(TestBase):
         mytest.dut.send_message("ADVERTISE")
         print("Confirm/Response Advertise is received by NRF Board")
         data = mytest.dut.confirm_message("ADVERTISE")
-        print(f"Received the ADVERTISE Message is : {data}")
+        print(f" {data} to Receive message")
         mytest.cleanup()
 
 
 if __name__ == "__main__":
-    print("Connect Test Case Execution")
+    print("Connect Test Case Execution",os.getcwd())
     sys.path.append(os.getcwd())
     mytest = ConnectTest()
     mytest.run()

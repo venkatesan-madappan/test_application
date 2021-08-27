@@ -14,7 +14,6 @@ class NrfBoard(Device):
     NRFBoard Module
     """
     def __init__(self):
-        #super(Device, self).__init__()
         super().__init__()
         self.transport = None
         #print("Device Class")
@@ -37,7 +36,7 @@ class NrfBoard(Device):
         :return: None
         """
         if msgstr in Messages.primitives.keys():
-            message_val = bytes(chr(Messages.primitives[msgstr]), 'ascii')
+            message_val = Messages.data_serialize(msgstr)
             self.transport.send(message_val)
         sleep(0.001)
 
@@ -55,8 +54,8 @@ class NrfBoard(Device):
         :return:
         """
         found = False
-        if self.transport.confirm_message(msgstr) is not None:
-            found = True
+        found, msg = self.transport.confirm_message(msgstr)
+
         return found
 
     def cleanup(self):
