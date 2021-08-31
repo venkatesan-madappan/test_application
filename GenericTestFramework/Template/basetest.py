@@ -33,6 +33,11 @@ class TestBase:
         self.dut.create_device_and_transport(self.config_module.config_data)
         self.logger.info("Run the Test Case")
 
+    @staticmethod
+    def wait_for_advertisement():
+        print("*" * 30, end='')
+        input('("Press any key than Press Enter") to Start Advertisement on the NRF Board')
+
     def cleanup(self):
         """
         Clean up method

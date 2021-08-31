@@ -59,6 +59,14 @@ class SerialTransport(Transport):
             received_data.append(data)
         return ''.join(received_data)
 
+    def clean_received_messages(self):
+        """
+        Complete pending messages from Queue
+        :return:
+        """
+        while not self.msgq.empty():
+            data = self.msgq.get(1).decode('utf-8')
+
     def confirm_message(self, msg):
         """
         Confirm given Messge is being received or not
@@ -82,9 +90,10 @@ class SerialTransport(Transport):
                                 msg_check = ""
                     else:
                         msg_check = msg_check+data
-            else:
-                print("Seems like we have reached the Empty")
-                print(f"Message is  : {msg_check}")
+            #else:
+                #print("Seems like we have reached the Empty")
+                #print(f"Message is  : {msg_check} : {msg_found}")
+
         except Exception as e:
             print("There is an Exception "+str(e))
             pass

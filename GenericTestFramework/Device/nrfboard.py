@@ -29,6 +29,14 @@ class NrfBoard(Device):
         self.transport.open()
         sleep(0.01)
 
+    def get_to_initial_condition(self):
+        self.send_message("ADVERTISE_STOP")
+        data = self.confirm_message("ADVERTISE_STOP_SUCCESSFULL")
+        if data:
+            print("Set to Initial Condition")
+        else:
+            print("Something went wrong")
+
     def send_message(self, msgstr):
         """
         Send the Message to NRF Board
@@ -46,6 +54,13 @@ class NrfBoard(Device):
         :return: Received bytes
         """
         return self.transport.receive()
+
+    def clean_received_messages(self):
+        """
+        Clear the Received the Messages from NRF Board through Serial Interface
+        :return: Received bytes
+        """
+        return self.transport.clean_received_messages()
 
     def confirm_message(self, msgstr):
         """
