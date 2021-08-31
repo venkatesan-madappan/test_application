@@ -120,26 +120,19 @@ static int settings_runtime_load(void)
 void main(void)
 {
 	int err;
-
-	printk("First\n");
 	
 	err = bt_enable(NULL);
-	
-    printk("Bt Enabled \n");
 	
 	if (err) {
 		printk("Bluetooth init failed (err %d)\n", err);
 		return;
 	}
-    printk("Success \n");
 	
 	if (IS_ENABLED(CONFIG_BT_SETTINGS)) {
 		settings_load();
 	}
-    printk("Settings done \n");
-	settings_runtime_load();
 
-	printk("Bluetooth initialized\n");
+	settings_runtime_load();
 
 	bt_conn_cb_register(&conn_callbacks);
 	
