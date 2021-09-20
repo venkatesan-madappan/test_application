@@ -7,18 +7,23 @@ import os
 from config.configmodule import ConfigModule
 from Device.nrfboard import NrfBoard
 from Template.logmodule import Log
+from datetime import datetime
 
 
 class TestBase:
     """
     Base Test Class
     """
+
     def __init__(self):
         filename = os.path.join(os.getcwd(), './config/deviceconfig.json')
         self.config_module = ConfigModule(filename)
         self.config_module.get_config_parameters()
-        logfile = os.path.join(os.getcwd(), './log/logfile.txt')
-        self.logger = Log(logfile)
+        timestamp = str((datetime.now()).strftime("%Y%m%d_%H_%M_%S"))
+        log_file_name = r"./log/" + self.__class__.__name__ + "_" + timestamp + ".txt"
+        logfile = os.path.join(os.getcwd(), log_file_name)
+        console_log = False if self.config_module.config_data["console_log"].lower() == "no" else True
+        self.logger = Log(logfile, console_log)
         if self.config_module.config_data["Board"] == "NRF5340":
             self.dut = NrfBoard()
         else:
@@ -35,7 +40,7 @@ class TestBase:
 
     @staticmethod
     def wait_for_advertisement():
-        print("*" * 30, end='')
+        print("*" * 30, end='\n')
         input('("Press any key than Press Enter") to Start Advertisement on the NRF Board')
 
     def cleanup(self):

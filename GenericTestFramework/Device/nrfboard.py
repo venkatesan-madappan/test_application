@@ -37,6 +37,8 @@ class NrfBoard(Device):
         else:
             print("Something went wrong")
 
+        self.send_message("CLEAR_BONDING")
+
     def send_message(self, msgstr):
         """
         Send the Message to NRF Board

@@ -5,16 +5,16 @@ Test Automation Framework
 
 import sys
 import os
+import time
 from time import sleep
 
 from Template.basetest import TestBase
 
 
-class DisconnectTest(TestBase):
+class SecureConnectTest(TestBase):
     """
-    DISConnect TestCase
+    Connect TestCase
     """
-
     def __init__(self):
         super().__init__()
         sys.path.append(os.getcwd())
@@ -26,7 +26,7 @@ class DisconnectTest(TestBase):
         TestBase.wait_for_advertisement()
 
         mytest.dut.send_message("ADVERTISE")
-        sleep(0.25)
+
         data = mytest.dut.confirm_message("ADVERTISE_SUCCESSFULL")
         if data:
             self.logger.info(f"====>Advertisement for DIS Application Successfully")
@@ -35,30 +35,34 @@ class DisconnectTest(TestBase):
             self.logger.info("====>Testcase Failed")
 
         self.logger.info("\n\nWaiting for the Mobile App to Connect with the Board  MAX Duration : 25 Seconds \n")
+
+        mytest.dut.send_message("AUTHENTICATION_CONFIRMED")
+        #mytest.dut.send_message("AUTHENTICATION_CANCELED")
+
         for i in range(100):
             print(".", end="")
             sys.stdout.flush()
             sleep(0.25)
             data = mytest.dut.confirm_message("CONNECT")
             if data:
-                self.logger.info("\n====>Mobile APP and NRF Board Connected Successfullly")
+                self.logger.info("\n====>Mobile APP and NRF Board Connected Successfully")
+                self.logger.info("Connect Passed")
                 break
         else:
             self.logger.info("\n====>Connection Failed between Mobile APP and NRF Board")
-            self.logger.info("\n====>Testcase Failed")
+            self.logger.info("\nConnect Failed")
 
-        self.logger.info("\n\nWaiting for the Mobile App to DISConnect with the Board  MAX Duration : 25 Seconds \n")
-        for i in range(100):
-            print(".", end="")
-            sys.stdout.flush()
+        time.sleep(5)
+        mytest.dut.send_message("GET_SECURITY_LEVEL")
+
+        for i in range(10):
             sleep(0.25)
-            data = mytest.dut.confirm_message("DISCONNECT")
+            data = mytest.dut.confirm_message("BT_SECURITY_L4")
             if data:
-                self.logger.info("\n====>Mobile APP and NRF Board DISConnected Successfullly")
+                self.logger.info("\nSecurity Level is 4\nSecure Connect Test has Passed\n")
                 break
         else:
-            self.logger.info("\n====>Connection Failed between Mobile APP and NRF Board")
-            self.logger.info("\nTestcase Failed")
+            self.logger.info("\nSecure Connect Test has Failed\n")
 
         mytest.cleanup()
 
@@ -66,5 +70,5 @@ class DisconnectTest(TestBase):
 if __name__ == "__main__":
 
     sys.path.append(os.getcwd())
-    mytest = DisconnectTest()
+    mytest = SecureConnectTest()
     mytest.run()

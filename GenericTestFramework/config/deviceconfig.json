@@ -1,5 +1,6 @@
 {
   "Board"     : "NRF5340",
   "Transport" : "Serial",
-  "PortNumber": "COM14"
+  "PortNumber": "COM14",
+  "console_log": "YES"
 }

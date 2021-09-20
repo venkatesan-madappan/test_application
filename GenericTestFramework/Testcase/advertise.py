@@ -28,11 +28,11 @@ class AdvertiseTest(TestBase):
         sleep(0.25)
         data = mytest.dut.confirm_message("ADVERTISE_SUCCESSFULL")
         if data :
-            print(f"====>Advertisement for DIS Application Successfully")
-            print(f" Testcase Passed")
+            self.logger.info(f"====>Advertisement for DIS Application Successfully")
+            self.logger.info(f" Testcase Passed")
         else:
-            print("====>Sorry There is some issue in Staring Advertisement")
-            print("====>Testcase Failed")
+            self.logger.info("====>Sorry There is some issue in Staring Advertisement")
+            self.logger.info("====>Testcase Failed")
 
         mytest.cleanup()
 

@@ -28,24 +28,24 @@ class ConnectTest(TestBase):
 
         data = mytest.dut.confirm_message("ADVERTISE_SUCCESSFULL")
         if data:
-            print(f"====>Advertisement for DIS Application Successfully")
+            self.logger.info(f"====>Advertisement for DIS Application Successfully")
         else:
-            print("====>Sorry There is some issue in Staring Advertisement")
-            print("====>Testcase Failed")
+            self.logger.info("====>Sorry There is some issue in Staring Advertisement")
+            self.logger.info("====>Testcase Failed")
 
-        print("\n\nWaiting for the Mobile App to Connect with the Board  MAX Duration : 25 Seconds \n")
+        self.logger.info("\n\nWaiting for the Mobile App to Connect with the Board  MAX Duration : 25 Seconds \n")
         for i in range(100):
             print(".", end="")
             sys.stdout.flush()
             sleep(0.25)
             data = mytest.dut.confirm_message("CONNECT")
             if data:
-                print("\n====>Mobile APP and NRF Board Connected Successfullly")
-                print("Testcase Passed")
+                self.logger.info("\n====>Mobile APP and NRF Board Connected Successfullly")
+                self.logger.info("Testcase Passed")
                 break
         else:
-            print("\n====>Connection Failed between Mobile APP and NRF Board")
-            print("\nTestcase Failed")
+            self.logger.info("\n====>Connection Failed between Mobile APP and NRF Board")
+            self.logger.info("\nTestcase Failed")
 
         mytest.cleanup()
 

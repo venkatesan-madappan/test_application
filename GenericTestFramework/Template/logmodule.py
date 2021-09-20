@@ -4,14 +4,19 @@ Test Automation Framework
 """
 
 import logging
+import sys
 
 
 class Log:
     """
     Log Module
     """
-    def __init__(self, fname, log_level=logging.DEBUG):
+    def __init__(self, fname, consoleout=True, log_level=logging.DEBUG):
         logging.basicConfig(filename=fname, encoding='utf-8', level=log_level)
+        if consoleout:
+            self.logger = logging.getLogger()
+            stdout_handler = logging.StreamHandler(sys.stdout)
+            self.logger.addHandler(stdout_handler)
 
     def info(self, msg):
         """
