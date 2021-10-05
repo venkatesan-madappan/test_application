@@ -36,6 +36,14 @@ void serial_read_thread(void)
         {
             get_security_level();
         }
+		else if(strcmp(s, "EXPLORE_BT_ADDRESS")==0)
+		{
+			char addr_s[BT_ADDR_LE_STR_LEN];
+			bt_addr_le_t addr = {0};
+			size_t count = 1;
+			bt_id_get(&addr, &count);
+			bt_addr_le_to_str(&addr, addr_s, sizeof(addr_s));
+		}
         else
             printk("%s\n", s);
     }

@@ -15,7 +15,7 @@ void cancel_auth(void);
 void get_security_level(void);
 void set_security_level(bt_security_t);
 
-int settings_runtime_load(void);
+
 void disconnected(struct bt_conn *conn, uint8_t reason);
 void connected(struct bt_conn *conn, uint8_t err);
 

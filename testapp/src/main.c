@@ -4,6 +4,7 @@
  */
 
 #include "bt_specific.h"
+#include <services/custom_service.h>
 #include "test_app.h"
 
 
@@ -28,13 +29,25 @@ static struct bt_conn_auth_cb pairing_cb_display = {
 
 static void bt_ready_callback(int err)
 {
-    if(err)
-    {
-        printk("BT Initialization failed\n");
-        return;
-    }
-
-    return;
+	if(err)
+	{
+		printk("Bluetooth init failed (err %d) \n", err);
+	}
+	custom_service_init();
+	
+	if(IS_ENABLED(CONFIG_SETTINGS))
+	{
+		settings_load();
+	}
+	/*
+	err = bt_le_adv_start(BT_LE_ADV_CONN, ad, ARRAY_SIZE(ad), NULL, 0);
+	if(err)
+	{
+		printk("Advertising Failed to start (err %d)\n", err);
+		return;
+	}
+	printk("Advertising Started Successfully \n");
+	*/
 }
 void main(void)
 {
@@ -49,12 +62,6 @@ void main(void)
     
     clear_all_bonds();
     
-    if (IS_ENABLED(CONFIG_BT_SETTINGS)) {
-        settings_load();
-    }
-
-    settings_runtime_load();
-
     bt_conn_cb_register(&conn_callbacks);
     
     // callback for authentication step
